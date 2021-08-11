@@ -1,0 +1,57 @@
+name: AKS_$(Build.BuildNumber)
+
+trigger:
+  branches:
+    include:
+      - master
+  paths:
+    exclude:
+      - azure_pipelines/*
+      - README.md
+
+pr: none
+
+stages:
+  - stage: PreDeploy
+    jobs:
+    - job: ServiceNow
+      pool: 
+        vmImage: 'ubuntu-latest'
+      continueOnError: false
+      steps:
+      - task: Bash@3
+        displayName: 'ServiceNow'
+        inputs:
+          targetType: inline
+          script: |
+            echo "ServiceNow"
+      - task: Bash@3
+        displayName: 'Create Cluster SP'
+        inputs:
+          targetType: inline
+          script: |
+            echo "Cluster SP creation ..."
+      - task: Bash@3
+        displayName: 'Adding SP to Keyvault'
+        inputs:
+          targetType: inline
+          script: |
+            echo "Adding SP to Keyvault..."
+      - task: Bash@3
+        displayName: 'Create PAMS'
+        inputs:
+          targetType: inline
+          script: |
+            echo "PAMS group creation ..."
+      - task: Bash@3
+        displayName: 'Create RG'
+        inputs:
+          targetType: inline
+          script: |
+            echo "RG creation ..."
+      - task: Bash@3
+        displayName: 'Assign Network Roles to SP'
+        inputs:
+          targetType: inline
+          script: |
+            echo "Assign network roles to SP ..."
